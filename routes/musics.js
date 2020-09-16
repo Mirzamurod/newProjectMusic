@@ -35,7 +35,7 @@ router.post('/musics/add', eA, (req, res) => {
     if (errors) {
         res.render('music_add', {
             title: "Musiqa Qo'shish",
-            errors: errors
+            errors
         });
     } else {
         const music = new Music();
@@ -59,7 +59,7 @@ router.get('/musics/:id', eA, (req, res) => {
     Music.findById(req.params.id, (err, music) => {
         User.findById(music.singer, (err, user) => {
             res.render('music', {
-                music: music,
+                music,
                 singer: user.name
             });
         });
