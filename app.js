@@ -6,8 +6,11 @@ const flash = require('connect-flash')
 const expressValidator = require('express-validator')
 const session = require('express-session')
 const passport = require('passport')
-const connectDB = require('./cf/db')()
+// const connectDB = require('./cf/db')
+const mdb = require('./cf/db');
 const colors = require('colors')
+
+const PORT = 3000
 
 // APP.JS INIT
 const app = express()
@@ -22,10 +25,10 @@ app.use(bodyParser.json())
 const Music = require('./model/Music')
 
 // MONGO DB CONNECTION
-// mongoose.connect(connectDB, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-// })
+mongoose.connect(mdb.db, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
 const db = mongoose.connection
 
 // IF OPEN
@@ -60,10 +63,6 @@ app.use(
         secret: 'keyboard cat',
         resave: true,
         saveUninitialized: true,
-        cookie: {
-            secure: true,
-            maxAge: 60000,
-        },
     })
 )
 
@@ -120,6 +119,6 @@ app.use('/', musics)
 const users = require('./routes/users')
 app.use('/', users)
 
-app.listen(5000, () => {
+app.listen(PORT || 5000, () => {
     console.log('Server Ishga Tushdi!!!')
 })
